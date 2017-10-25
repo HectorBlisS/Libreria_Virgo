@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Descripcion</title>
+	<meta charset="utf-8">
+	
+	<meta name="description" content="La casa free real state fully responsive html5/css3 home page website template"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+	
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/responsive.css">
+
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+        
+        
+        <link rel="stylesheet" href="./css/reset2.css">
+
+	
+
+	<link rel="stylesheet" href="./css/main2.css">
+        
+        
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  
+      <link rel="stylesheet" href="css/style.css">
+      
+      
+      
+
+	
+</head>
+<body>
+
+	<section class="hero">
+		<header>
+			
+                            
+                            <div class="wrapper">
+				<a href="#"><img src="img/logo.png" class="logo" alt="" title=""/></a>
+				<a href="#" class="hamburger"></a>
+				<nav>
+					
+					<a href="carrito.html" class="login_btn">Carrito</a>
+				</nav>
+			</div>
+				
+				
+		
+		</header><!--  end header section  -->
+		
+	
+
+
+	<section class="listings">
+		<div class="wrapper">
+			<ul class="properties_list">
+				<li>
+					<a href="#">
+						<img src="img/l3.jpg" alt="" title="" class="property_img"/>
+					</a>	
+                                   
+				</li>
+                                
+                                <li>
+                                    
+                                    
+                                     <table id="myTable"   class="responstable">
+            <tr>
+                
+             
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                <th>Nombre </th>
+                <th>Autor</th>
+                <th>Genero</th>
+                 <th>Precio</th>
+            </tr>
+                                     </table>
+                                    
+                                  
+					
+				</li>
+                                
+                                <li>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    
+                                <center> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="btn__submit" color="blue" type="button" value="Añadir al carrito"  onClick="guardarDatos()"></center>
+                                </li>
+				
+			</ul>
+			<div class="more_listing">
+				<a href="paulo.html" class="more_listing_btn">Atras</a>
+			</div>
+		</div>
+	</section>	<!--  end listing section  -->
+        
+        
+        <script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyB_X7LcRbi2WSXr4f8CBcLY2Jzek37wBXc",
+    authDomain: "virgo-4006e.firebaseapp.com",
+    databaseURL: "https://virgo-4006e.firebaseio.com",
+    projectId: "virgo-4006e",
+    storageBucket: "virgo-4006e.appspot.com",
+    messagingSenderId: "1081966876303"
+  };
+  firebase.initializeApp(config);
+    
+      
+  
+  var PedidosRef = firebase.database().ref('/Libros/').orderByChild('nombre').startAt('Brida').endAt('Brida');
+ 
+ 
+    PedidosRef.on('child_added',function(datos){
+      var Libros =  datos.val();
+      var nombre = Libros.nombre;
+      var autor = Libros.autor;
+      var genero = Libros.genero;
+      var precio = Libros.precio;      
+      
+
+         var myTable= document.getElementById('myTable');
+      var nuevoRenglon = myTable.insertRow();
+      var celdaNombre = nuevoRenglon.insertCell(0);
+      var celdaAutor = nuevoRenglon.insertCell(1);
+      var celdaGenero =nuevoRenglon.insertCell(2);
+      var celdaPrecio =nuevoRenglon.insertCell(3);       
+      
+      
+      
+      celdaNombre.innerHTML= nombre;
+      celdaAutor.innerHTML= autor;
+      celdaGenero.innerHTML= genero;
+      celdaPrecio.innerHTML= precio;
+      
+      
+      
+      
+      
+      
+      
+      
+      
+   
+      
+      
+      
+  }); 
+  
+     
+    function guardarDatos(){
+      
+       
+     
+      var nombre = 'Brida';
+      
+      var autor = 'Paulo Coelho';
+      var genero = 'Novela';
+      var precio = '259.00';
+      
+      
+   var datosLibro={
+        
+        nombre : nombre,
+        
+        autor : autor,
+        genero : genero,
+        precio :  precio
+        
+            };
+     
+        var myFunction = function(error){
+          if(error ){
+              alert('Ha ocurrido un error');
+              console.log(error); 
+              
+          }
+          else{
+              alert('Libro añadido al carrito');
+          }
+      };
+         if(autor==="" || genero==="" ||precio==="" || nombre==="" || precio<=0){
+           alert('Ha ocurrido un error');
+       }
+      
+       else{
+            var pushRef = firebase.database().ref("/Carrito/").push();
+           pushRef.set(datosLibro, myFunction);
+
+        }   
+
+
+     } 
+  
+  
+  
+  
+</script>
+
+	
+	
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="./css/reset2.css">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet">
+
+	<link rel="stylesheet" href="./css/main2.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  
+      <link rel="stylesheet" href="css/style.css">
+
+	<title>Carrito</title>
+        
+        
+
+</head>
+
+<body>
+    
+    
+    
+    <table id="myTable" class="responstable">
+  
+  <tr>
+    <th>Nombre</th>
+    <th >Autor</th>
+    <th>Genero</th>
+    <th>Precio</th>
+    
+  </tr>
+    </table>
+ 
+    
+    <div class="container">
+
+			
+
+		
+
+          
+
+            <div class="btn__form">
+
+                <input class="btn__submit" type="button" value="Cerrar Sesion" align="center" onclick="cerrarSesion()">
+                
+            </div>
+                 
+
+	
+    
+   
+    
+   
+   
+  
+            
+<script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyB_X7LcRbi2WSXr4f8CBcLY2Jzek37wBXc",
+    authDomain: "virgo-4006e.firebaseapp.com",
+    databaseURL: "https://virgo-4006e.firebaseio.com",
+    projectId: "virgo-4006e",
+    storageBucket: "virgo-4006e.appspot.com",
+    messagingSenderId: "1081966876303"
+  };
+  firebase.initializeApp(config);
+  
+  
+  var CarritoRef = firebase.database().ref('/Carrito/').orderByChild('nombre');//.startAt('200').endAt('440');
+  
+ 
+
+  
+ 
+    CarritoRef.on('child_added',function(datos){
+      var Carrito =  datos.val();
+      
+      var nombre = Carrito.nombre;
+     
+      var autor = Carrito.autor;
+      var genero = Carrito.genero;
+       var precio = Carrito.precio;
+       
+       
+     
+
+         var myTable= document.getElementById('myTable');
+      var nuevoRenglon = myTable.insertRow();
+      var celdaNombre = nuevoRenglon.insertCell(0);
+       var celdaAutor =nuevoRenglon.insertCell(1);
+       var celdaGenero =nuevoRenglon.insertCell(2);
+      var celdaPrecio = nuevoRenglon.insertCell(3);    
+      var celdaBoton=nuevoRenglon.insertCell(4);
+      
+      
+  
+        
+      var btnEliminar  = document.createElement("button");
+      btnEliminar.innerHTML="eliminar";
+      celdaBoton.appendChild(btnEliminar);
+ 
+    
+     
+     
+       btnEliminar.onclick=function(){
+           eliminarLibros(datos.key);
+       };
+      nuevoRenglon.id = datos.key;   
+      
+      
+      
+      celdaNombre.innerHTML= nombre;
+      
+      celdaAutor.innerHTML= autor;
+      celdaGenero.innerHTML= genero;
+      celdaPrecio.innerHTML= precio;
+      
+ 
+      
+  });
+ 
+  
+
+     
+  
+   function eliminarLibros(CarritoKey){
+        
+        firebase.database().ref('/Carrito/' + CarritoKey).remove();
+        
+        firebase.database().ref('/Carrito/').on('child_removed',function(datos){
+                var renglon = document.getElementById(datos.key);
+                var myTable=document.getElementById('myTable');
+                myTable.deleteRow(renglon.rowIndex);
+                
+                        
+       });
+   
+     window.location="carrito.html";}
+
+
+ 
+
+
+
+      
+ function cerrarSesion(){
+      firebase.auth().signOut()
+              .then(function(){
+                  window.location="Index.html";
+      })
+              .catch(function(error){
+         alert('Ha ocurrido un error');
+           console.log(error);
+      });
+  }
+  
+  
+
+  
+  
+  
+</script>
+
+      </div>
+
+	
+
+</body>
+
+</html>

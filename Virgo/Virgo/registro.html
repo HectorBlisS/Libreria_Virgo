@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="./css/reset2.css">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet">
+
+	<link rel="stylesheet" href="./css/main2.css">
+
+	<title>Formulario</title>
+
+</head>
+
+<body>
+
+
+
+	<div class="container">
+
+		<div class="form__top">
+
+			<h2>Formulario <span>Registro</span></h2>
+
+		</div>		
+
+		<form class="form__reg" action="">
+
+			
+
+            <input class="input" type="email" id="txtUser" placeholder="&#9993;  Email" required>
+            
+             <input class="input" type="password" id="txtPassword" placeholder="&#x2612;  Contraseña" required>
+
+          
+
+            <div class="btn__form">
+                
+                
+
+            	<input class="btn__submit" type="button" value="REGISTRAR"  onclick="crearCuenta()">
+
+            	<input class="btn__reset" type="reset" value="LIMPIAR">	
+
+            </div>
+              <center><a href="login.html"><h5>Acceder</h5></a></center>
+
+		</form>
+            
+            <script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyB_X7LcRbi2WSXr4f8CBcLY2Jzek37wBXc",
+    authDomain: "virgo-4006e.firebaseapp.com",
+    databaseURL: "https://virgo-4006e.firebaseio.com",
+    projectId: "virgo-4006e",
+    storageBucket: "virgo-4006e.appspot.com",
+    messagingSenderId: "1081966876303"
+  };
+  firebase.initializeApp(config);
+  
+  
+  
+  function crearCuenta(){
+      var usuario = document.getElementById('txtUser').value;
+      var contraseña = document.getElementById('txtPassword').value;
+      
+      firebase .auth().createUserWithEmailAndPassword(usuario,contraseña)
+              .then(function(){
+                  alert('usuario creado con exito');
+      })
+              .catch(function(error){
+                  alert('error al crear usuario');
+          console.log(error);
+      });
+  
+    }
+  
+  
+  </script>
+
+	</div>
+
+	
+
+</body>
+
+</html>

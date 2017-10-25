@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="./css/reset2.css">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet">
+
+	<link rel="stylesheet" href="./css/main2.css">
+
+	<title>Sugerencias</title>
+
+</head>
+
+<body>
+
+
+
+	<div class="container">
+
+		<div class="form__top">
+
+			<h2>Pide Tu <span>Libro</span></h2>
+                        <h1>Dinos que libro te gustaria que tuvieramos</h1>
+
+		</div>		
+
+		<form class="form__reg" action="">
+
+			<input class="input" type="text" id="txtNombre" placeholder="Nombre" required autofocus>
+                        
+                        <input class="input" type="email" id="txtCorreo" placeholder="Correo" required autofocus>
+                        
+                        <input class="input" type="text" id="txtNombreLibro" placeholder="Nombre del Libro" required autofocus>
+                        
+                        <input class="input" type="text" id="txtAutor" placeholder="Autor" required autofocus>
+                        
+                        <input class="input" type="number" id="txtCantidad" placeholder="Cuantos Deseas" required autofocus>
+
+            <div class="btn__form">
+
+            	<input class="btn__submit" type="button" value="Guardar"  onClick="guardarDatos()">
+
+            	<input class="btn__reset" type="reset" value="LIMPIAR">	
+
+            </div>
+
+		</form>
+            
+<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyB_X7LcRbi2WSXr4f8CBcLY2Jzek37wBXc",
+    authDomain: "virgo-4006e.firebaseapp.com",
+    databaseURL: "https://virgo-4006e.firebaseio.com",
+    projectId: "virgo-4006e",
+    storageBucket: "",
+    messagingSenderId: "1081966876303"
+  };
+  firebase.initializeApp(config);
+  
+  function guardarDatos(){
+      
+       
+      var nombre = document.getElementById('txtNombre').value;
+      var email = document.getElementById('txtCorreo').value;
+      var nombrelibro = document.getElementById('txtNombreLibro').value;
+      var autor = document.getElementById('txtAutor').value;     
+      var cantidad = document.getElementById('txtCantidad').value;
+      
+   var datosLibro={
+        
+        nombre : nombre,
+        email :  email,
+        nombrelibro : nombrelibro,
+        autor : autor,
+        cantidad : cantidad
+            };
+     
+        var myFunction = function(error){
+          if(error ){
+              alert('Ha ocurrido un error');
+              console.log(error); 
+              
+          }
+          else{
+              alert('Informacion almacenada con exito');
+          }
+      };
+         if(autor==="" || nombrelibro==="" || email==="" || cantidad==="" || nombre==="" || cantidad<=0){
+           alert('Ha ocurrido un error');
+       }
+      
+       else{
+            var pushRef = firebase.database().ref("/Pedidos/").push();
+           pushRef.set(datosLibro, myFunction);
+
+        }   
+
+
+     } 
+
+
+    </script>
+            </div>
+
+    </body>
+    </html>

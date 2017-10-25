@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="./css/reset2.css">
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet">
+
+	<link rel="stylesheet" href="./css/main2.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  
+      <link rel="stylesheet" href="css/style.css">
+
+	<title>Lista de libros</title>
+
+</head>
+
+<body>
+    
+    
+    
+    <table id="myTable" class="responstable">
+  
+  <tr>
+    <th>Nombre</th>
+    <th data-th="Driver details"><span>Precio</span></th>
+    <th>Autor</th>
+    <th>Genero</th>
+    <th>Disponibilidad</th>
+  </tr>
+    </table>
+ 
+    
+    <div class="container">
+
+		<div class="form__top">
+                    
+                     
+
+			<h2><span>Actualizar</span></h2>
+
+		</div>		
+
+		<form class="form__reg" action="">
+
+			
+
+            <input class="input" type="text" id="txtnombre" placeholder="  Nombre" required autofocus >
+            
+             <input class="input" type="number" id="txtprecio" placeholder="  Precio" required autofocus>
+             
+              <input class="input" type="text" id="txtautor" placeholder="  Autor"  required autofocus>
+              
+               <input class="input" type="text" id="txtgenero" placeholder="  Genero"  required autofocus>
+               
+                <input class="input" type="number" id="txtdisponibilidad" placeholder="  Disponibilidad"  required autofocus>
+
+          
+
+            <div class="btn__form">
+
+                <input class="btn__submit" type="button" value="Cerrar Sesion" align="center" onclick="cerrarSesion()">
+                
+            </div>
+                 <center><a href="agregarlibros.html"><h5>Agregar Libros</h5></a></center>
+                  <center><a href="listadepedidos.html"><h5>Lista de Pedisos</h5></a></center>
+           
+
+		</form>
+    
+   
+    
+   
+   
+  
+            
+<script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyB_X7LcRbi2WSXr4f8CBcLY2Jzek37wBXc",
+    authDomain: "virgo-4006e.firebaseapp.com",
+    databaseURL: "https://virgo-4006e.firebaseio.com",
+    projectId: "virgo-4006e",
+    storageBucket: "virgo-4006e.appspot.com",
+    messagingSenderId: "1081966876303"
+  };
+  firebase.initializeApp(config);
+  
+  
+  var LibrosRef = firebase.database().ref('/Libros/').orderByChild('nombre');//.startAt('200').endAt('440');
+  
+ 
+    LibrosRef.on('child_added',function(datos){
+      var Libros =  datos.val();
+      var nombre = Libros.nombre;
+      var precio = Libros.precio;
+      var autor = Libros.autor;
+      var genero = Libros.genero;
+       var disponibilidad = Libros.disponibilidad;
+
+         var myTable= document.getElementById('myTable');
+      var nuevoRenglon = myTable.insertRow();
+      var celdaNombre = nuevoRenglon.insertCell(0);
+      var celdaPrecio = nuevoRenglon.insertCell(1);
+      var celdaAutor =nuevoRenglon.insertCell(2);
+      var celdaGenero =nuevoRenglon.insertCell(3);
+      var celdaDisponibilidad =nuevoRenglon.insertCell(4);
+      var celdaBoton=nuevoRenglon.insertCell(5);
+          
+      var btnEliminar  = document.createElement("button");
+      btnEliminar.innerHTML="eliminar";
+      celdaBoton.appendChild(btnEliminar);
+      
+       btnEliminar.onclick=function(){
+           eliminarLibros(datos.key);
+       };
+      nuevoRenglon.id = datos.key;
+      
+     var btnActualizar = document.createElement("button");
+        btnActualizar.innerHTML = "Actualizar";
+        celdaBoton.appendChild(btnActualizar);
+        
+        btnActualizar.onclick=function(){ 
+            actualizarLibros(datos.key);
+        };
+        nuevoRenglon.id = datos.key;
+      
+      
+      
+      celdaNombre.innerHTML= nombre;
+      celdaPrecio.innerHTML= precio;
+      celdaAutor.innerHTML= autor;
+      celdaGenero.innerHTML= genero;
+      celdaDisponibilidad.innerHTML= disponibilidad;
+      
+  });
+  
+   function eliminarLibros(LibrosKey){
+        
+        firebase.database().ref('/Libros/' + LibrosKey).remove();
+        
+        firebase.database().ref('/Libros/').on('child_removed',function(datos){
+                var renglon = document.getElementById(datos.key);
+                var myTable=document.getElementById('myTable');
+                myTable.deleteRow(renglon.rowIndex);
+                        
+       });
+    window.location="listalibros.html";}
+
+ function actualizarLibros(LibrosKey){
+ 
+    var nombre = document.getElementById('txtnombre').value;
+    var precio = document.getElementById('txtprecio').value;
+    var autor = document.getElementById('txtautor').value;
+    var genero = document.getElementById('txtgenero').value;
+    var disponibilidad = document.getElementById('txtdisponibilidad').value;
+   
+	
+  var InfoActual = {
+    nombre : nombre,
+    precio : precio,
+    autor : autor,
+    genero : genero,
+    disponibilidad : disponibilidad
+};
+
+  firebase.database().ref('/Libros/'+LibrosKey).update(InfoActual);
+   window.location="listalibros.html";
+  }
+
+
+
+
+      
+ function cerrarSesion(){
+      firebase.auth().signOut()
+              .then(function(){
+                  window.location="Index.html";
+      })
+              .catch(function(error){
+         alert('Ha ocurrido un error');
+           console.log(error);
+      });
+  }
+  
+  
+
+  
+  
+  
+</script>
+
+      </div>
+
+	
+
+</body>
+
+</html>
